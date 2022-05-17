@@ -1,0 +1,33 @@
+
+version: 2
+
+models:
+  - name: my_first_dbt_model
+    description: "A starter dbt model"
+    meta:
+      model_maturity: in dev
+      contains_pii: false
+      author: X
+      domain_name: Y
+      sub_domain: Z
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+
+  - name: my_second_dbt_model
+    description: "A starter dbt model"
+    meta:
+      model_maturity: in dev
+      contains_pii: false
+      author: X
+      domain_name: Y
+      sub_domain: Z
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null

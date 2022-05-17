@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "dbt-service"
+version = "0.1.0"
+description = ""
+authors = []
+
+[tool.poetry.dependencies]
+python = "^3.9"
+dbt-core = "^1.0.5"
+dbt-bigquery = "^1.1.0"
+fastapi = "^0.70.1"
+uvicorn = {version = "^0.16.0", extras = ["standard"]}
+
+[tool.poetry.dev-dependencies]
+black = "^22.1.0"
+pylama = "^8.3.8"
+mypy = "^0.941"
+pytest = "^7.1.1"
+sqlfluff = "^0.11.1"
+sqlfluff-templater-dbt = "^0.11.1"
+
+[tool.black]
+line-length = 88
+
+[build-system]
+requires = ["poetry-core>=1.1.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.sqlfluff.core]
+verbose = 0
+templater = "dbt"
+dialect = "bigquery"
+exclude_rules = "L032,L027"
+
+[tool.sqlfluff.templater.dbt]
+profiles_dir = "test_bq/"
+project_dir = "test_bq/"

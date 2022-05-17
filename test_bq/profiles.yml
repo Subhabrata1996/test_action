@@ -1,0 +1,13 @@
+test_bq:
+  outputs:
+    dev:
+      dataset: test
+      job_execution_timeout_seconds: 30000
+      job_retries: 1
+      location: EU
+      method: oauth
+      priority: interactive
+      project: noted-tesla-302415
+      threads: 1
+      type: bigquery
+  target: dev

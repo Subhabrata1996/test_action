@@ -1,0 +1,31 @@
+repos:
+  - repo: https://github.com/offbi/pre-commit-dbt
+    rev: v1.0.0
+    hooks:
+    - id: check-script-semicolon
+    - id: check-script-has-no-table-name
+    
+    - id: dbt-compile
+      args: ["--cmd-flags", "++project-dir", "test_bq/","++profiles-dir", "test_bq/", "--model-prefix", "+", "--", ]
+    - id: dbt-test
+      args: ["--cmd-flags", "++project-dir", "test_bq/","++profiles-dir", "test_bq/","--model-prefix", "+", "--"]
+    - id: dbt-docs-generate
+      args: ["--cmd-flags", "++project-dir", "test_bq/","++profiles-dir", "test_bq/"]
+    - id: check-model-has-meta-keys
+      args: ["--manifest", "test_bq/target/manifest.json",'--meta-keys', 'model_maturity', 'contains_pii', 'author', 'domain_name', 'sub_domain',"--"]
+    - id: check-source-has-meta-keys
+      args: ['--meta-keys', 'contains_pii', "--"]
+    - id: generate-missing-sources
+      args: ["--manifest", "test_bq/target/manifest.json","--schema-file", "test_bq/models/example/schema.yml", "--"]
+   
+    # - id: generate-model-properties-file
+    #   args: ["--properties-file", "/models/schema.yml", "--"]
+  - repo: https://github.com/sqlfluff/sqlfluff
+    rev: 0.11.2
+    hooks:
+      - id: sqlfluff-lint
+        additional_dependencies: ["dbt-bigquery==1.1.0", "sqlfluff-templater-dbt==0.11.2"]
+        types: [sql]
+        exclude: "^target/"
+        args:
+          - -p 10

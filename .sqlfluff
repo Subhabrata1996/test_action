@@ -1,0 +1,13 @@
+[sqlfluff]
+verbose = 5
+dialect = bigquery
+templater = dbt
+
+[sqlfluff:rules]
+tab_space_size = 2
+
+[sqlfluff:templater:dbt]
+profiles_dir = test_bq/
+
+[tool.sqlfluff.templater.jinja]
+apply_dbt_builtins = True
