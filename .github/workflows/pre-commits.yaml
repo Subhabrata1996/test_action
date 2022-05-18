@@ -1,0 +1,35 @@
+name: pre commit checks
+on:
+  pull_request:
+    branches: [development]
+
+jobs:
+  pr_to_dev:
+    name: pr_to_dev
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: check out
+        uses: actions/checkout@master
+      
+      - name: setup environment
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8.10"
+      
+      - id: file_changes
+        name: changed files
+        uses: trilom/file-changes-action@v1.2.4
+        with:
+          output: ' '
+
+      - name: pre commit check
+        run: |
+          echo "installing dependencies"
+          make poetry
+
+          echo "installing pre-commit"
+          make precommit
+
+          echo "Running checks"
+          pre-commit run --files ${{steps.file_changes.outputs.files}}
