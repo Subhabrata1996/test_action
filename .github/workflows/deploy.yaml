@@ -40,6 +40,3 @@ jobs:
 
           echo "running tests"
           make run_dq_tests
-
-          echo "running catalog server"
-          make run_catalog_server
