@@ -43,6 +43,6 @@ jobs:
 
           echo "installing dbt"
           pip install dbt-bigquery
-          
+
           echo "Running checks"
-          dbt --version
+          pre-commit run --files ${{steps.file_changes.outputs.files}}
