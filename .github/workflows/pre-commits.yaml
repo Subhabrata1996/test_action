@@ -7,6 +7,9 @@ jobs:
   pr_to_dev:
     name: pr_to_dev
     runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
 
     steps:
       - name: check out
@@ -22,6 +25,13 @@ jobs:
         uses: trilom/file-changes-action@v1.2.4
         with:
           output: ' '
+
+      - id: auth
+        name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0
+        with:
+          workload_identity_provider: 'projects/731312910056/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
+          service_account: 'dbt-test@noted-tesla-302415.iam.gserviceaccount.com'             
 
       - name: pre commit check
         run: |
