@@ -41,5 +41,8 @@ jobs:
           echo "installing pre-commit"
           make precommit
 
+          echo "installing dbt"
+          pip install dbt-bigquery
+          
           echo "Running checks"
           dbt --version
