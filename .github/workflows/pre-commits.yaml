@@ -42,4 +42,4 @@ jobs:
           make precommit
 
           echo "Running checks"
-          pre-commit run --files ${{steps.file_changes.outputs.files}}
+          dbt --version
