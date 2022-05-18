@@ -1,11 +1,11 @@
-name: pre commit checks
+name: deploy
 on:
-  pull_request:
+  push:
     branches: [development]
 
 jobs:
-  pr_to_dev:
-    name: pr_to_dev
+  deploy_dbt_models:
+    name: deploy_dbt_models
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
@@ -19,12 +19,6 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: "3.9.x"
-      
-      - id: file_changes
-        name: changed files
-        uses: trilom/file-changes-action@v1.2.4
-        with:
-          output: ' '
 
       - id: auth
         name: Authenticate to Google Cloud
@@ -33,16 +27,19 @@ jobs:
           workload_identity_provider: 'projects/731312910056/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
           service_account: 'dbt-test@noted-tesla-302415.iam.gserviceaccount.com'             
 
-      - name: pre commit check
+      - name: run dbt
         run: |
           echo "installing dependencies"
           make poetry
 
-          echo "installing pre-commit"
-          make precommit
-
           echo "installing dbt"
           pip install dbt-bigquery
 
-          echo "Running checks"
-          pre-commit run --files ${{steps.file_changes.outputs.files}} 
+          echo "executing DBT models"
+          make run_dbt
+
+          echo "running tests"
+          make run_dq_tests
+
+          echo "running catalog server"
+          make run_catalog_server
