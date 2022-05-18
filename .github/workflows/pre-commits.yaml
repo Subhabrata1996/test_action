@@ -45,4 +45,4 @@ jobs:
           pip install dbt-bigquery
 
           echo "Running checks"
-          pre-commit run --files ${{steps.file_changes.outputs.files}}
+          pre-commit run --files ${{steps.file_changes.outputs.files}} 
